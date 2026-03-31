@@ -14,3 +14,15 @@ O sistema atua em três frentes principais:
 1.  **Seguros e Previdência:** Ingestão de aportes e pagamentos de prêmios.
 2.  **Banking & Fidelidade:** Conversão de transações de cartão e conta corrente em pontos de recompensa.
 3.  **Segurança Operacional:** Filtro de validação para garantir que pontos não sejam atribuídos a transações fraudulentas.
+
+## 💾 Arquitetura de Dados (Data Sources)
+
+O projeto consome dados sintéticos gerados para simular um ambiente de produção real, utilizando dois formatos principais para demonstrar a versatilidade do processamento com Spark:
+
+1. **Banking Transactions (CSV):** Dados transacionais brutos contendo informações de valores, categorias e geolocalização.
+2. **Customer Profiles (JSON):** Dados de perfil de cliente e segmentação de produtos (Seguros/Previdência), cruciais para a regra de negócio de fidelidade e segurança.
+
+### Contrato de Dados (Principais Atributos):
+* **Identificadores:** `tx_id`, `cust_id`.
+* **Negócio:** `tx_amount`, `tx_category`, `loyalty_tier`.
+* **Segurança/Fraude:** `lat_long`, `tx_datetime`, `home_city`.
