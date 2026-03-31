@@ -1,0 +1,6 @@
+# Exemplo de adições ao .gitignore
+.terraform/
+*.tfstate
+__pycache__/
+.venv/
+.env
