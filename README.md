@@ -1,5 +1,3 @@
-Plataforma de Fidelidade e Detecção de Fraude - Engenharia de Dados na Azure
-
 # Plataforma de Fidelidade & Detecção de Fraude (Data Engineering)
 
 ## 📋 Escopo do Projeto
