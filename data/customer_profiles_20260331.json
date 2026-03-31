@@ -1,0 +1,284 @@
+[
+    {
+        "cust_id": 1001,
+        "name": "André Vicente",
+        "loyalty_tier": "Bronze",
+        "home_city": "Macedo de Cavaleiros",
+        "active_products": [
+            "Previdência"
+        ],
+        "known_devices": [
+            "1a3d1fa7-bc89-40a9-a3b8-c1e9392456de",
+            "8b9d2434-e465-4150-bd9c-66b3ad3c2d6d"
+        ]
+    },
+    {
+        "cust_id": 1002,
+        "name": "Paulo Martins",
+        "loyalty_tier": "Platinum",
+        "home_city": "Alverca do Ribatejo",
+        "active_products": [
+            "Seguro Auto",
+            "Seguro Vida",
+            "Cartão Prime"
+        ],
+        "known_devices": [
+            "815ef6d1-3b8f-4a18-b7f8-a88b17fc695a",
+            "32e70629-8fad-41a6-86cb-0fb39a1de644"
+        ]
+    },
+    {
+        "cust_id": 1003,
+        "name": "Larissa Domingues-Melo",
+        "loyalty_tier": "Bronze",
+        "home_city": "Agualva-Cacém",
+        "active_products": [
+            "Cartão Prime",
+            "Seguro Auto"
+        ],
+        "known_devices": [
+            "b2b9437a-28df-4ec4-8e4a-2bbdc241330b",
+            "27cd8130-4722-4389-971a-a8766c307511"
+        ]
+    },
+    {
+        "cust_id": 1004,
+        "name": "William Leal",
+        "loyalty_tier": "Silver",
+        "home_city": "Castelo Branco",
+        "active_products": [
+            "Seguro Vida",
+            "Previdência"
+        ],
+        "known_devices": [
+            "d8f56413-5be6-428e-98c2-67976142ea7d",
+            "ce9ff57f-43b7-43a6-9a8d-ca03580d7b71"
+        ]
+    },
+    {
+        "cust_id": 1005,
+        "name": "Valentim Mendes",
+        "loyalty_tier": "Bronze",
+        "home_city": "Póvoa de Santa Iria",
+        "active_products": [
+            "Seguro Auto",
+            "Previdência",
+            "Seguro Vida"
+        ],
+        "known_devices": [
+            "d453dd32-4b0d-4b41-8d52-88f1142c3fe8",
+            "dc98d2c1-e2ac-472f-9e57-4f7aa0ee89ae"
+        ]
+    },
+    {
+        "cust_id": 1006,
+        "name": "Mia Correia",
+        "loyalty_tier": "Bronze",
+        "home_city": "Anadia",
+        "active_products": [
+            "Seguro Vida",
+            "Previdência",
+            "Seguro Auto"
+        ],
+        "known_devices": [
+            "4a15544d-c5e7-4e8a-ba57-8a8ea9488d99",
+            "3b982ef8-daf6-4a26-946d-3f31fc377a4c"
+        ]
+    },
+    {
+        "cust_id": 1007,
+        "name": "Jorge Freitas",
+        "loyalty_tier": "Bronze",
+        "home_city": "Porto",
+        "active_products": [
+            "Cartão Prime",
+            "Previdência"
+        ],
+        "known_devices": [
+            "35a240ae-5af3-4553-9ec4-2e0829a3b2e9",
+            "efc89849-b3aa-4efe-8458-a885ab9099a4"
+        ]
+    },
+    {
+        "cust_id": 1008,
+        "name": "Rafael Rocha",
+        "loyalty_tier": "Bronze",
+        "home_city": "Vendas Novas",
+        "active_products": [
+            "Seguro Auto",
+            "Cartão Prime"
+        ],
+        "known_devices": [
+            "7656af72-29d4-4eef-beab-edcbbaa80dd4",
+            "ece66fa2-fd51-46e6-851b-4cf36123fdf7"
+        ]
+    },
+    {
+        "cust_id": 1009,
+        "name": "Emma Sousa-Henriques",
+        "loyalty_tier": "Platinum",
+        "home_city": "Lixa",
+        "active_products": [
+            "Previdência",
+            "Seguro Auto",
+            "Seguro Vida"
+        ],
+        "known_devices": [
+            "50c187fc-ce17-4b4e-8837-b8a3d261a7ab",
+            "3602f8ac-10f1-4c81-848a-aa9e66b2bc5b"
+        ]
+    },
+    {
+        "cust_id": 1010,
+        "name": "Soraia-Iara Cunha",
+        "loyalty_tier": "Platinum",
+        "home_city": "Reguengos de Monsaraz",
+        "active_products": [
+            "Previdência",
+            "Cartão Prime"
+        ],
+        "known_devices": [
+            "757750a9-a491-40b2-aa1f-ca65e27a984d",
+            "3f22faf8-23be-401d-83cf-2fde24933b83"
+        ]
+    },
+    {
+        "cust_id": 1011,
+        "name": "Maria Figueiredo-Vieira",
+        "loyalty_tier": "Silver",
+        "home_city": "Ílhavo",
+        "active_products": [
+            "Seguro Vida"
+        ],
+        "known_devices": [
+            "ff50bde4-3825-47b8-9cab-cc97663f1c97",
+            "7e570ddf-8270-40a8-a369-b584ff5e9ff0"
+        ]
+    },
+    {
+        "cust_id": 1012,
+        "name": "Vítor Anjos",
+        "loyalty_tier": "Gold",
+        "home_city": "Felgueiras",
+        "active_products": [
+            "Seguro Vida"
+        ],
+        "known_devices": [
+            "ae340454-cac5-468c-a8f4-9481a0a04dc4",
+            "62801c45-1043-4a10-98ae-43346c12ace8"
+        ]
+    },
+    {
+        "cust_id": 1013,
+        "name": "Naiara Miranda",
+        "loyalty_tier": "Silver",
+        "home_city": "Vila Nova de Gaia",
+        "active_products": [
+            "Previdência",
+            "Seguro Vida"
+        ],
+        "known_devices": [
+            "ae270da7-02f0-4b90-b143-262fdc5c0eed",
+            "e2817efd-ae84-4217-9d53-434bb88139b9"
+        ]
+    },
+    {
+        "cust_id": 1014,
+        "name": "Victória Fonseca-Rodrigues",
+        "loyalty_tier": "Platinum",
+        "home_city": "Câmara de Lobos",
+        "active_products": [
+            "Seguro Vida",
+            "Previdência"
+        ],
+        "known_devices": [
+            "74273ca3-287d-46ca-af4c-c69a4b22d308",
+            "e037e5ed-b8db-4672-b42d-47cc00d4af59"
+        ]
+    },
+    {
+        "cust_id": 1015,
+        "name": "Mateus Castro-Moura",
+        "loyalty_tier": "Silver",
+        "home_city": "Olhão",
+        "active_products": [
+            "Previdência",
+            "Seguro Auto"
+        ],
+        "known_devices": [
+            "9be578c7-81f6-41d4-a392-31a7d777a477",
+            "c333e861-5fb8-416c-a720-797d32ebd689"
+        ]
+    },
+    {
+        "cust_id": 1016,
+        "name": "Márcio Neves",
+        "loyalty_tier": "Gold",
+        "home_city": "Paredes",
+        "active_products": [
+            "Seguro Vida"
+        ],
+        "known_devices": [
+            "edd96831-1ca3-4cfb-84fc-6d827d154385",
+            "d4e80839-fc3e-458b-a0f3-eab05cec4eb5"
+        ]
+    },
+    {
+        "cust_id": 1017,
+        "name": "Erica Antunes",
+        "loyalty_tier": "Gold",
+        "home_city": "Vila do Conde",
+        "active_products": [
+            "Seguro Auto",
+            "Seguro Vida",
+            "Previdência"
+        ],
+        "known_devices": [
+            "bb5e4bcf-15ed-4269-9429-6c07f26b4776",
+            "fa5d3100-11b7-4948-90e6-e6607c69dee1"
+        ]
+    },
+    {
+        "cust_id": 1018,
+        "name": "Vitória Branco-Branco",
+        "loyalty_tier": "Bronze",
+        "home_city": "Vila Nova de Foz Côa",
+        "active_products": [
+            "Seguro Auto",
+            "Previdência"
+        ],
+        "known_devices": [
+            "df57c59a-8715-4103-83da-c0432a45c2ab",
+            "36386821-f6e0-4cc0-ac52-c49f9b49bd26"
+        ]
+    },
+    {
+        "cust_id": 1019,
+        "name": "Victória Vaz-Sá",
+        "loyalty_tier": "Bronze",
+        "home_city": "Oliveira do Hospital",
+        "active_products": [
+            "Seguro Auto",
+            "Previdência"
+        ],
+        "known_devices": [
+            "a65e688e-abf3-4d39-bec2-1bbe66245bfa",
+            "847fd9b4-e64d-4bcb-b027-53a15f987c71"
+        ]
+    },
+    {
+        "cust_id": 1020,
+        "name": "Caetana Fernandes",
+        "loyalty_tier": "Bronze",
+        "home_city": "Beja",
+        "active_products": [
+            "Seguro Auto",
+            "Previdência",
+            "Cartão Prime"
+        ],
+        "known_devices": [
+            "8dcdcd03-969b-4662-8562-8059568cc69b",
+            "01d74256-3860-4ab6-96a4-02f23ae8cc93"
+        ]
+    }
+]
