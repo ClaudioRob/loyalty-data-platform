@@ -59,4 +59,4 @@ Para processar as camadas do Data Lake localmente apontando para o Azure:
 ![alt text](image-2.png)
 
 ```
-### Mantido por Cláudio - Data Engineering Project 2026
+Mantido por Cláudio - Data Engineering Project 2026
