@@ -49,12 +49,14 @@ Para processar as camadas do Data Lake localmente apontando para o Azure:
 ```bash
 # Refino: Bronze -> Silver
 ./.venv/bin/python scripts/transform_bronze_to_silver.py
-
+```
 ![alt text](image-3.png)
 
+```
 # Agregação: Silver -> Gold
 ./.venv/bin/python scripts/transform_silver_to_gold.py
-
+```
 ![alt text](image-2.png)
 
+```
 ### Mantido por Cláudio - Data Engineering Project 2026
