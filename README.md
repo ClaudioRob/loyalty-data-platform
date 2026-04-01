@@ -32,7 +32,8 @@ A infraestrutura é organizada em camadas de maturidade no Azure Data Lake Stora
 * **🟤 Bronze (Raw):** Armazenamento dos arquivos brutos (CSV/JSON) exatamente como chegam da origem.
 * **⚪ Silver (Refined):** Dados limpos, com tipos convertidos (`Double`, `Timestamp`), saneamento de nulos e padronização de moedas. Armazenado em **Parquet**.
 * **🟡 Gold (Business):** Tabelas agregadas e otimizadas para consumo. Exemplo: KPI de faturamento e volume de transações por categoria (`kpi_category_finance`).
-![alt text](image.png)
+
+![alt text](image-1.png)
 
 ## 📁 Status do Pipeline de Dados
 - [x] **Infraestrutura:** Provisionada via Terraform (Azure ADLS Gen2).
