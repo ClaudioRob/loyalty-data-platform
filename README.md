@@ -1,4 +1,4 @@
-# Plataforma de Fidelidade & Detecção de Fraude (Data Engineering)
+# Plataforma de Fidelidade & Detecção de Fraude
 
 ## 📋 Escopo do Projeto
 Este projeto simula um ecossistema financeiro onde transações diárias de seguros, previdência e serviços bancários são processadas para alimentar um motor de recompensas. O objetivo principal é demonstrar a construção de pipelines robustos que garantam a integridade dos pontos acumulados e a segurança do ecossistema através de análises de fraude.
@@ -49,4 +49,23 @@ O pipeline de dados foi desenhado para processar os arquivos diários seguindo a
     * **Físico:** Identificar transações em cidades diferentes em janelas de tempo impossíveis.
     * **Digital:** Identificar o uso de `device_id` compartilhados entre múltiplos perfis em curto intervalo.
 
-    
+## 🏗️ Infraestrutura (IaC)
+A infraestrutura é provisionada via **Terraform**, seguindo princípios de modularidade e segurança.
+
+### Componentes Azure:
+* **Resource Group:** Isolamento lógico dos recursos.
+* **Azure Blob Storage (ADLS Gen2):** Camadas Bronze, Silver e Gold para o Data Lake.
+* **Azure Database for PostgreSQL:** Armazenamento de metadados do orquestrador e tabelas finais de negócio.
+* **Azure Kubernetes Service (AKS):** Cluster para execução dos workers do Airflow e Spark on K8s.
+
+### 🗄️ Camadas do Data Lake (ADLS Gen2)
+Utilizamos a arquitetura de medalhão para organizar o processamento dos dados de seguros e fidelidade:
+* **Bronze:** Armazenamento dos arquivos brutos (CSV/JSON) exatamente como chegam da origem.
+* **Silver:** Dados limpos, com tipos convertidos e enriquecidos com regras de fraude.
+* **Gold:** Tabelas agregadas e otimizadas para consumo pelo PostgreSQL e Dashboards.
+
+## 📁 Status do Pipeline de Dados
+- [x] **Infraestrutura:** Provisionada via Terraform (Azure ADLS Gen2 + PostgreSQL).
+- [x] **Ingestão (Bronze):** Dados brutos de transações (CSV) e perfis (JSON) ingeridos via Azure CLI.
+- [ ] **Transformação (Silver):** PySpark configurado para processamento local e escrita no Lake (Pendente).
+- [ ] **Modelagem (Gold):** Carga no PostgreSQL para consumo de Business Intelligence (Pendente).
