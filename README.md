@@ -76,7 +76,3 @@ Para processar as camadas do Data Lake localmente apontando para o Azure:
 ```docker compose up -d```
 
 #### Acesse a UI em http://localhost:8081 para disparar a DAG.
-
-
-
-
