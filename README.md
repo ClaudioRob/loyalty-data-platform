@@ -59,14 +59,14 @@ Para processar as camadas do Data Lake localmente apontando para o Azure:
 ```
 ![alt text](images/image-2.png)
 
-# Execução via Airflow (Orquestrado)
-# 1. Construir a imagem customizada
+## Execução via Airflow (Orquestrado)
+### 1. Construir a imagem customizada
 docker compose build
 
-# 2. Iniciar os containers
+### 2. Iniciar os containers
 docker compose up -d
 
-# Acesse a UI em http://localhost:8081 para disparar a DAG.
+### Acesse a UI em http://localhost:8081 para disparar a DAG.
 
 ### ⚙️ Orquestração e Ambiente Local (Centralized Airflow)
 Para suportar o ecossistema Spark e garantir a reprodutibilidade, o projeto utiliza uma infraestrutura de containers customizada no WSL2:
