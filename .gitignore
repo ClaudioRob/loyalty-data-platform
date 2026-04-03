@@ -1,3 +1,9 @@
+# Airflow junk
+airflow/logs/
+airflow/plugins/__pycache__/
+airflow/config/*.cfg
+airflow/.env
+
 # Exemplo de adições ao .gitignore
 .terraform/
 *.tfstate
