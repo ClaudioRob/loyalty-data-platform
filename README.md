@@ -59,11 +59,11 @@ Para processar as camadas do Data Lake localmente apontando para o Azure:
 ```
 ![alt text](images/image-2.png)
 
-## Execução via Airflow (Orquestrado)
-### 1. Construir a imagem customizada
+# 🔄 Via Airflow (Orquestrado)
+## Construir a imagem customizada (Java + Spark)
 docker compose build
 
-### 2. Iniciar os containers
+## Iniciar os containers
 docker compose up -d
 
 ### Acesse a UI em http://localhost:8081 para disparar a DAG.
