@@ -40,6 +40,8 @@ Para suportar o ecossistema Spark e garantir a reprodutibilidade, o projeto util
 * **PySpark & Conectividade:** Instalação via `requirements.txt` incluindo `pyspark==3.5.0`, `python-dotenv` e `azure-storage-blob`.
 * **Gerenciamento de Segredos:** Integração com arquivos `.env` e controle de permissões de sistema de arquivos Linux (`chmod 644`).
 
+
+
 ## 📁 Status do Pipeline de Dados
 - [x] **Infraestrutura:** Provisionada via Terraform (Azure ADLS Gen2).
 - [x] **Ambiente Local:** Dockerizado com Java/Spark integrado ao Airflow.
@@ -76,3 +78,34 @@ Para processar as camadas do Data Lake localmente apontando para o Azure:
 ```docker compose up -d```
 
 #### Acesse a UI em http://localhost:8081 para disparar a DAG.
+
+
+## 🛡️ Detalhamento: Motor de Detecção de Fraude (Spark)
+O pipeline agora processa regras de segurança em tempo real sobre a camada **Silver**, identificando padrões suspeitos antes da consolidação na **Gold**:
+
+* **Velocidade de Deslocamento (Impossible Travel):** Script PySpark que calcula a distância entre a transação atual e a anterior do mesmo `customer_id`. Utilizando a fórmula de Haversine, se a velocidade necessária para o deslocamento for superior a **800km/h**, a transação é marcada com a flag `is_fraud = True`.
+* **Divergência de Device ID:** Cruzamento entre o `device_id` da transação e a lista de dispositivos confiáveis no `Customer Profiles`. IPs de regiões não mapeadas ou dispositivos novos disparam alertas de criticidade alta.
+
+---
+
+## 🏗️ Infraestrutura como Código (Terraform)
+A pasta `/infra` contém a definição da stack Azure, permitindo o provisionamento do ambiente de forma declarativa e segura:
+
+* **`storage.tf`:** Configura o **Azure Data Lake Storage Gen2 (ADLS)**, criando automaticamente os containers `bronze`, `silver` e `gold`.
+* **`database.tf`:** Provisiona a instância de banco de dados (Azure SQL/Postgres) para persistência de metadados do Airflow e logs de auditoria.
+* **`main.tf` & `variables.tf`:** Centralizam a gestão de provedores, regiões (ex: `East US`) e tags de controle de custo.
+
+> **Fluxo de Deploy da Infra:**
+> ```bash
+> cd infra
+> terraform init
+> terraform plan
+> terraform apply -auto-approve
+> ```
+
+---
+
+## 🧪 Data Quality & Observabilidade
+Para garantir que o Dashboard reflita a realidade, implementamos travas de qualidade (Data Contracts) em cada etapa:
+* **Schema Validation:** Garantia de que os campos mandatórios como `tx_id` e `amount` nunca sejam nulos.
+* **Unicidade:** Remoção de duplicidade de registros na camada Silver para evitar inflação indevida de KPIs financeiros.
