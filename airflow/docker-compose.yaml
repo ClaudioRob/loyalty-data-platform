@@ -3,6 +3,9 @@ x-airflow-common:
   &airflow-common
   build: .
   image: airflow-custom-spark:latest
+  # ADICIONE ESTAS DUAS LINHAS AQUI:
+  env_file:
+    - .env
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
