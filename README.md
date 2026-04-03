@@ -59,12 +59,10 @@ Para processar as camadas do Data Lake localmente apontando para o Azure:
 ```
 ![alt text](images/image-2.png)
 
-```
-Mantido por Cláudio - Data Engineering Project 2026
-
 ### ⚙️ Orquestração e Ambiente Local (Centralized Airflow)
 Para suportar o ecossistema Spark e garantir a reprodutibilidade, o projeto utiliza uma infraestrutura de containers customizada no WSL2:
 * **Dockerfile Customizado:** Imagem base `apache/airflow:2.10.1` estendida com **JRE 17** e utilitários de sistema (`procps`) necessários para o runtime do Spark.
 * **PySpark & Conectividade:** Instalação via `requirements.txt` incluindo `pyspark==3.5.0`, `python-dotenv` e `azure-storage-blob`.
 * **Gerenciamento de Segredos:** Integração com arquivos `.env` e controle de permissões de sistema de arquivos Linux (`chmod 644`).
+
 
