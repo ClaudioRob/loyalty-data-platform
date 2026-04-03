@@ -1,4 +1,4 @@
-# Plataforma de Fidelidade & Detecção de Fraude 💳🛡️
+# 🛡️ Plataforma de Fidelidade & Detecção de Fraude 
 
 ## 📋 Escopo do Projeto
 Este projeto simula um ecossistema financeiro onde transações diárias de seguros, previdência e serviços bancários são processadas para alimentar um motor de recompensas. O objetivo principal é demonstrar a construção de pipelines robustos que garantam a integridade dos dados e a segurança do ecossistema através de análises de fraude e arquitetura de dados moderna.
