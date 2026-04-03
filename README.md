@@ -17,7 +17,6 @@ O sistema atua em três frentes principais:
 
 ## 💾 Arquitetura de Dados (Data Sources)
 O projeto consome dados sintéticos gerados para simular um ambiente de produção real:
-
 1. **Banking Transactions (CSV):** Dados transacionais brutos contendo `tx_id`, `tx_amount`, `tx_datetime`, `tx_category`, `location_city`, `ip_address` e `device_id`.
 2. **Customer Profiles (JSON):** Dados de perfil de cliente e segmentação de produtos (Seguros/Previdência), cruciais para as regras de negócio de fidelidade.
 
@@ -35,14 +34,24 @@ A infraestrutura é organizada em camadas de maturidade no Azure Data Lake Stora
 
 ![alt text](images/image-1.png)
 
+## ⚙️ Orquestração e Ambiente Local (Centralized Airflow)
+Para suportar o ecossistema Spark e garantir a reprodutibilidade, o projeto utiliza uma infraestrutura de containers customizada no WSL2:
+* **Dockerfile Customizado:** Imagem base `apache/airflow:2.10.1` estendida com **JRE 17** e utilitários de sistema (`procps`) necessários para o runtime do Spark.
+* **PySpark & Conectividade:** Instalação via `requirements.txt` incluindo `pyspark==3.5.0`, `python-dotenv` e `azure-storage-blob`.
+* **Gerenciamento de Segredos:** Integração com arquivos `.env` e controle de permissões de sistema de arquivos Linux (`chmod 644`).
+
 ## 📁 Status do Pipeline de Dados
 - [x] **Infraestrutura:** Provisionada via Terraform (Azure ADLS Gen2).
 - [x] **Ambiente Local:** Dockerizado com Java/Spark integrado ao Airflow.
-- [x] **Ingestão (Bronze):** Dados brutos de transações e perfis ingeridos com sucesso.
-- [x] **Transformação (Silver):** Pipeline PySpark concluído (Saneamento e Tipagem ANSI).
-- [x] **Modelagem (Gold):** Geração de KPIs financeiros consolidada em Parquet.
-- [x] **Orquestração:** DAG `pipeline_loyalty_medallion` operacional via Airflow Centralizado.
-- [ ] **Visualização:** Dashboard minimalista em Streamlit ou Power BI (Pendente).
+- [x] **Ingestão (Bronze):** Dados brutos ingeridos com sucesso.
+- [x] **Transformação (Silver):** Pipeline PySpark concluído (Saneamento e Tipagem).
+- [x] **Modelagem (Gold):** Geração de KPIs financeiros consolidada.
+- [x] **Data Quality:** Implementação de checks automáticos de Schema, Nulos e Duplicados.
+- [x] **Orquestração:** DAG `pipeline_loyalty_medallion` com tratamento de erros.
+- [ ] **Visualização:** Dashboard Streamlit integrado ao ADLS Gen2 (Em progresso).
+
+## 📊 Visualização e Qualidade
+O projeto utiliza **Great Expectations** (conceitualmente) e scripts Spark para garantir a integridade. A visualização é feita via **Streamlit**, consumindo diretamente ficheiros Parquet da camada Gold, permitindo uma análise executiva em tempo real.
 
 ## 🚀 Como Executar
 Para processar as camadas do Data Lake localmente apontando para o Azure:
@@ -67,12 +76,6 @@ Para processar as camadas do Data Lake localmente apontando para o Azure:
 ```docker compose up -d```
 
 #### Acesse a UI em http://localhost:8081 para disparar a DAG.
-
-## ⚙️ Orquestração e Ambiente Local (Centralized Airflow)
-Para suportar o ecossistema Spark e garantir a reprodutibilidade, o projeto utiliza uma infraestrutura de containers customizada no WSL2:
-* **Dockerfile Customizado:** Imagem base `apache/airflow:2.10.1` estendida com **JRE 17** e utilitários de sistema (`procps`) necessários para o runtime do Spark.
-* **PySpark & Conectividade:** Instalação via `requirements.txt` incluindo `pyspark==3.5.0`, `python-dotenv` e `azure-storage-blob`.
-* **Gerenciamento de Segredos:** Integração com arquivos `.env` e controle de permissões de sistema de arquivos Linux (`chmod 644`).
 
 
 
