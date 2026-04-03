@@ -44,12 +44,6 @@ A infraestrutura é organizada em camadas de maturidade no Azure Data Lake Stora
 - [x] **Orquestração:** DAG `pipeline_loyalty_medallion` operacional via Airflow Centralizado.
 - [ ] **Visualização:** Dashboard minimalista em Streamlit ou Power BI (Pendente).
 
-### ⚙️ Orquestração e Ambiente Local (Centralized Airflow)
-Para suportar o ecossistema Spark e garantir a reprodutibilidade, o projeto utiliza uma infraestrutura de containers customizada no WSL2:
-* **Dockerfile Customizado:** Imagem base `apache/airflow:2.10.1` estendida com **JRE 17** e utilitários de sistema (`procps`) necessários para o runtime do Spark.
-* **PySpark & Conectividade:** Instalação via `requirements.txt` incluindo `pyspark==3.5.0`, `python-dotenv` e `azure-storage-blob`.
-* **Gerenciamento de Segredos:** Integração com arquivos `.env` e controle de permissões de sistema de arquivos Linux (`chmod 644`).
-
 ## 🚀 Como Executar
 Para processar as camadas do Data Lake localmente apontando para o Azure:
 
@@ -64,6 +58,21 @@ Para processar as camadas do Data Lake localmente apontando para o Azure:
 ./.venv/bin/python scripts/transform_silver_to_gold.py
 ```
 ![alt text](images/image-2.png)
+
+# Execução via Airflow (Orquestrado)
+# 1. Construir a imagem customizada
+docker compose build
+
+# 2. Iniciar os containers
+docker compose up -d
+
+# Acesse a UI em http://localhost:8081 para disparar a DAG.
+
+### ⚙️ Orquestração e Ambiente Local (Centralized Airflow)
+Para suportar o ecossistema Spark e garantir a reprodutibilidade, o projeto utiliza uma infraestrutura de containers customizada no WSL2:
+* **Dockerfile Customizado:** Imagem base `apache/airflow:2.10.1` estendida com **JRE 17** e utilitários de sistema (`procps`) necessários para o runtime do Spark.
+* **PySpark & Conectividade:** Instalação via `requirements.txt` incluindo `pyspark==3.5.0`, `python-dotenv` e `azure-storage-blob`.
+* **Gerenciamento de Segredos:** Integração com arquivos `.env` e controle de permissões de sistema de arquivos Linux (`chmod 644`).
 
 
 
