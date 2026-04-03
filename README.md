@@ -37,10 +37,11 @@ A infraestrutura é organizada em camadas de maturidade no Azure Data Lake Stora
 
 ## 📁 Status do Pipeline de Dados
 - [x] **Infraestrutura:** Provisionada via Terraform (Azure ADLS Gen2).
+- [x] **Ambiente Local:** Dockerizado com Java/Spark integrado ao Airflow.
 - [x] **Ingestão (Bronze):** Dados brutos de transações e perfis ingeridos com sucesso.
 - [x] **Transformação (Silver):** Pipeline PySpark concluído (Saneamento e Tipagem ANSI).
 - [x] **Modelagem (Gold):** Geração de KPIs financeiros consolidada em Parquet.
-- [ ] **Orquestração:** Agendamento via Airflow/GitHub Actions (Pendente).
+- [x] **Orquestração:** DAG `pipeline_loyalty_medallion` operacional via Airflow Centralizado.
 - [ ] **Visualização:** Dashboard minimalista em Streamlit ou Power BI (Pendente).
 
 ## 🚀 Como Executar
@@ -60,3 +61,10 @@ Para processar as camadas do Data Lake localmente apontando para o Azure:
 
 ```
 Mantido por Cláudio - Data Engineering Project 2026
+
+### ⚙️ Orquestração e Ambiente Local (Centralized Airflow)
+Para suportar o ecossistema Spark e garantir a reprodutibilidade, o projeto utiliza uma infraestrutura de containers customizada no WSL2:
+* **Dockerfile Customizado:** Imagem base `apache/airflow:2.10.1` estendida com **JRE 17** e utilitários de sistema (`procps`) necessários para o runtime do Spark.
+* **PySpark & Conectividade:** Instalação via `requirements.txt` incluindo `pyspark==3.5.0`, `python-dotenv` e `azure-storage-blob`.
+* **Gerenciamento de Segredos:** Integração com arquivos `.env` e controle de permissões de sistema de arquivos Linux (`chmod 644`).
+
