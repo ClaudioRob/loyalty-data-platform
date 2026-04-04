@@ -102,16 +102,34 @@ try:
     alert_count = fraud_alerts.count()
     print(f"⚠️ Alertas detectados: {alert_count}")
     
-    # 10. Persistência Final (Removida a coluna location_city que causava o erro)
-    print(f"💾 Gravando Parquet em: {gold_fraud_path}")
-    
-    fraud_alerts.select(
+    # 10. Persistência Final com Particionamento (Padrão de Mercado)
+    print(f"💾 Gravando Parquet Particionado em: {gold_fraud_path}")
+
+    # Criamos uma coluna temporária de data (sem a hora) para servir de partição
+    from pyspark.sql.functions import to_date
+
+    fraud_alerts_to_save = fraud_alerts.withColumn("dt_particao", to_date("transaction_date"))
+
+    # Gravamos usando partitionBy e o modo 'overwrite' com configuração de partição dinâmica
+    # Isso garante que apenas a partição do dia seja substituída, se configurado no Spark
+    fraud_alerts_to_save.select(
         "customer_id", "transaction_date", "amount", "category",
-        "latitude", "longitude", "dist_km", "diff_seconds", "fraud_reason"
-    ).write.mode("overwrite").parquet(gold_fraud_path)
+        "latitude", "longitude", "dist_km", "diff_seconds", "fraud_reason", "dt_particao"
+    ).write \
+     .mode("overwrite") \
+     .partitionBy("dt_particao") \
+     .parquet(gold_fraud_path)
+
+    # # 10. Persistência Final (Removida a coluna location_city que causava o erro)
+    # print(f"💾 Gravando Parquet em: {gold_fraud_path}")
     
-    if alert_count > 0:
-        fraud_alerts.show(5)
+    # fraud_alerts.select(
+    #     "customer_id", "transaction_date", "amount", "category",
+    #     "latitude", "longitude", "dist_km", "diff_seconds", "fraud_reason"
+    # ).write.mode("overwrite").parquet(gold_fraud_path)
+    
+    # if alert_count > 0:
+    #     fraud_alerts.show(5)
 
 except Exception as e:
     print(f"❌ Erro fatal: {e}")

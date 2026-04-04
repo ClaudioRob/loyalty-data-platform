@@ -182,3 +182,24 @@ OPTIONS (
   path "abfss://<CONTAINER>@<STORAGE_ACCOUNT>.dfs.core.windows.net/gold/dashboard_fraud_metrics/",
   "fs.azure.account.key.<STORAGE_ACCOUNT>.dfs.core.windows.net" = "${AZURE_STORAGE_KEY_SECRET}" 
 );
+```
+### 📈 Otimização de Performance: Particionamento
+O pipeline foi evoluído para suportar **Particionamento Dinâmico** na camada Gold. 
+
+- **Estratégia:** Partição física por `dt_particao` (derivada de `transaction_date`).
+- **Benefício:** Redução drástica no I/O de leitura para Dashboards de BI, permitindo filtragem eficiente no lado do storage (Partition Pruning).
+- **Escalabilidade:** Preparado para suportar crescimento volumétrico sem degradação de performance nas queries SQL.
+
+### 🔍 Notas de Consumo (Databricks SQL)
+
+Após a implementação do particionamento físico, a criação da View deve apontar para o diretório raiz da camada Gold. O motor do Spark realizará a descoberta automática das partições (Partition Discovery).
+
+**Comando de inicialização da sessão:**
+```sql
+CREATE OR REPLACE TEMPORARY VIEW v_fraud_alerts
+USING parquet
+OPTIONS (
+  path "abfss://lake@loyaltydatadl2026.dfs.core.windows.net/gold/fraud_alerts/",
+  "fs.azure.account.key.loyaltydatadl2026.dfs.core.windows.net" = "${AZURE_STORAGE_KEY}"
+);```
+
