@@ -157,7 +157,7 @@ CREATE OR REPLACE TEMPORARY VIEW v_fraud_alerts
 USING parquet
 OPTIONS (
   path "abfss://lake@loyaltydatadl2026.dfs.core.windows.net/gold/dashboard_fraud_metrics/"
-);
+);```
 
 ## 🔐 Segurança e Governança de Dados
 
