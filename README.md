@@ -110,3 +110,51 @@ Para garantir que o Dashboard reflita a realidade, implementamos travas de quali
 * **Schema Validation:** Garantia de que os campos mandatórios como `tx_id` e `amount` nunca sejam nulos.
 * **Unicidade:** Remoção de duplicidade de registros na camada Silver para evitar inflação indevida de KPIs financeiros.
 * **Permissões de Escrita:** Automação de chown nos volumes de dados para evitar falhas de Mkdirs no ambiente de desenvolvimento.
+
+---
+
+# 🏆 Camada Gold: Detecção de Fraude (Fraud Detection)
+
+Esta camada representa o estágio final de processamento do pipeline **Loyalty Data Platform**. Aqui, os dados refinados da Silver são submetidos a regras de negócio geoespaciais e temporais para identificação de comportamentos suspeitos.
+
+## 🏗️ Arquitetura do Processo
+O processamento é realizado via **PySpark** e orquestrado pelo **Apache Airflow**. O motor de cálculo utiliza funções de janela (Window Functions) para comparar transações sequenciais do mesmo cliente.
+
+### 📐 Métricas Calculadas
+1. **Distância Haversine**: Cálculo da curvatura da Terra entre as coordenadas (Lat/Log) da transação atual e da anterior.
+2. **Time Delta**: Diferença em segundos entre o timestamp de transações consecutivas.
+3. **Velocidade Relativa**: Razão entre distância e tempo para identificar deslocamentos fisicamente impossíveis.
+
+## 🛠️ Regras de Detecção (Business Rules)
+| Regra | Lógica | Status de Teste |
+| :--- | :--- | :--- |
+| **IMPOSSIBLE_TRAVEL** | Distância > 5km entre transações com tempo positivo. | Ativo (Regra Flexível) |
+| **HIGH_VELOCITY** | Intervalo entre transações < 24 horas (86400s). | Ativo (Regra Flexível) |
+
+> **Nota:** As regras acima foram ajustadas para o ambiente de homologação para garantir a volumetria de dados no Dashboard.
+
+## 📂 Estrutura de Saída (Azure Data Lake Storage Gen2)
+Os dados são persistidos no container `lake` nos seguintes caminhos:
+
+* **Audit Trail:** `gold/fraud_alerts/` (Contém o dump completo com flags de erro).
+* **BI Serving:** `gold/dashboard_fraud_metrics/` (Arquivo flat otimizado para o Databricks SQL).
+
+### Schema da Tabela de BI
+| Coluna | Tipo | Descrição |
+| :--- | :--- | :--- |
+| `customer_id` | String | ID único do cliente. |
+| `transaction_date` | Timestamp | Data/Hora do evento. |
+| `amount` | Double | Valor da transação. |
+| `distancia_km` | Double | Distância calculada (km). |
+| `tempo_minutos` | Double | Delta de tempo em minutos. |
+| `fraud_reason` | String | Categoria do alerta detectado. |
+
+## 📊 Integração Databricks SQL
+Para visualizar os dados no Databricks, utilize a View configurada:
+
+```sql
+CREATE OR REPLACE TEMPORARY VIEW v_fraud_alerts
+USING parquet
+OPTIONS (
+  path "abfss://lake@loyaltydatadl2026.dfs.core.windows.net/gold/dashboard_fraud_metrics/"
+);
