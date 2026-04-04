@@ -158,3 +158,26 @@ USING parquet
 OPTIONS (
   path "abfss://lake@loyaltydatadl2026.dfs.core.windows.net/gold/dashboard_fraud_metrics/"
 );
+
+## 🔐 Segurança e Governança de Dados
+
+### Observação sobre Integração Databricks ↔ ADLS Gen2
+> **Nota de Arquitetura:** Durante a fase de validação técnica deste pipeline, a conectividade entre o **Databricks Serverless SQL Warehouse** e o **Azure Data Lake Storage (ADLS Gen2)** foi realizada via passagem direta de credenciais no escopo da View. 
+
+**Limitação Técnica Identificada:** Atualmente, o ambiente *Serverless SQL* apresenta restrições na execução de comandos `dbutils.secrets.get()` diretamente em células SQL. Para a evolução deste projeto (Ambiente de Produção), as seguintes melhorias de segurança são recomendadas:
+
+1. **Unity Catalog (External Locations):** Configurar o acesso via *Service Principal* diretamente no catálogo, eliminando a necessidade de qualquer chave no código do Notebook.
+2. **All-Purpose Clusters:** Utilizar clusters de propósito geral caso seja mandatório o uso de *Secret Scopes* com Python para a montagem de volumes.
+3. **IAM Role Injection:** Atribuição de permissão "Storage Blob Data Contributor" à identidade gerenciada do Databricks.
+
+### 🚀 Configuração de Mount Point (Git-Safe)
+No repositório, o código de integração é representado com *placeholders* para proteção de infraestrutura:
+
+```sql
+-- Template de conexão para Databricks SQL
+CREATE OR REPLACE TEMPORARY VIEW v_fraud_alerts
+USING parquet
+OPTIONS (
+  path "abfss://<CONTAINER>@<STORAGE_ACCOUNT>.dfs.core.windows.net/gold/dashboard_fraud_metrics/",
+  "fs.azure.account.key.<STORAGE_ACCOUNT>.dfs.core.windows.net" = "${AZURE_STORAGE_KEY_SECRET}" 
+);
