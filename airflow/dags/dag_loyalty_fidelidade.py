@@ -6,18 +6,16 @@ from datetime import datetime, timedelta
 # --- CONFIGURAÇÕES DE AMBIENTE ---
 BASE_PATH = "/opt/airflow/loyalty-data-platform"
 JAR_PATH = f"{BASE_PATH}/jars"
-PYTHON_EXEC = "python3"
+PYTHON_EXEC = "/home/airflow/.local/bin/python3"
 
 # Listagem dos JARs necessários (Certifique-se de que o azure-storage está na pasta)
 jars_list = [
     f"{JAR_PATH}/delta-core_2.12-3.0.0.jar",
     f"{JAR_PATH}/delta-storage-3.0.0.jar",
     f"{JAR_PATH}/hadoop-azure-3.3.4.jar",
-    f"{JAR_PATH}/azure-storage-8.6.6.jar" # Driver essencial para o erro de ClassNotFound do Azure
+    f"{JAR_PATH}/azure-storage-8.6.6.jar"
 ]
-
-# Formatação do Classpath para o Java (separado por ":")
-jars_cp = ":".join(jars_list)
+jars_cp = ",".join(jars_list) # Lembre-se: Spark prefere vírgula no --jars
 
 # --- ARGUMENTOS PADRÃO ---
 default_args = {
@@ -43,7 +41,7 @@ with DAG(
     # 1. SETUP: Instalação de bibliotecas no worker (evita ModuleNotFoundError)
     t_setup = BashOperator(
         task_id='install_dependencies',
-        bash_command='pip install great-expectations python-dotenv pyspark'
+        bash_command=f'{PYTHON_EXEC} -m pip install --upgrade pip && {PYTHON_EXEC} -m pip install pyspark==3.4.1 delta-spark==2.4.0 great-expectations'
     )
 
     # 2. BRONZE QUALITY: Validação dos dados brutos
