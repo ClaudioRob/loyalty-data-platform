@@ -8,6 +8,8 @@ airflow.cfg
 webserver_config.py
 logs/
 plugins/
+standalone_admin_password.txt
+airflow-webserver.pid
 
 # Credenciais e Configurações locais
 auth.json
@@ -36,5 +38,5 @@ gx/logs/
 
 # Spark/Hadoop
 spark-warehouse/
-derby.log
 metastore_db/
+derby.log
