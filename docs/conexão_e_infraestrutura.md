@@ -1,66 +1,31 @@
-===============================================================================
-ESTRATEGIA DE CONEXAO E INFRAESTRUTURA - LOYALTY DATA PLATFORM
-===============================================================================
+🌐 Conectividade e Infraestrutura: Airflow & Azure Data Lake
+Este documento detalha a arquitetura de conectividade e os protocolos de comunicação implementados para integrar o Apache Airflow (Docker) ao Azure Data Lake Storage Gen2 (ADLS Gen2), garantindo um pipeline resiliente e seguro.
 
-Este documento detalha a arquitetura de conectividade e os protocolos de 
-comunicacao implementados para integrar o Apache Airflow (Docker) ao 
-Azure Data Lake Storage Gen2 (ADLS Gen2).
+🏗️ Arquitetura do Processo
+A conexão foi desenhada para ser independente de ambiente, utilizando o driver ABFSS (Azure Blob File System Driver) sobre a pilha do Hadoop. O motor de processamento utiliza injeção dinâmica de dependências para garantir portabilidade total entre o ambiente local (DELLWORK) e a nuvem.
 
--------------------------------------------------------------------------------
-1. ARQUITETURA DE CONEXAO (CONNECTIVITY)
--------------------------------------------------------------------------------
+🔑 Componentes de Conectividade
+Protocolo ABFSS: Uso de abfss:// para garantir transações atômicas e performance otimizada em namespaces hierárquicos da Azure, superando as limitações do protocolo Blob tradicional.
 
-A conexao foi desenhada para ser independente de ambiente, utilizando o driver 
-ABFSS (Azure Blob File System Driver) sobre a pilha do Hadoop.
+Dynamic Package Resolution: O Spark foi configurado para resolver as bibliotecas delta-core e hadoop-azure em tempo de execução via Maven, eliminando erros de classe não encontrada (ClassNotFoundException).
 
-* PROTOCOLO DE COMUNICACAO (P): Uso do prefixo 'abfss://' para garantir 
-  transacoes atomicas e performance otimizada em namespaces hierarquicos.
-* GERENCIAMENTO DE DEPENDENCIAS (D): Implementacao de injecao dinamica via 
-  Maven Packages no Spark, eliminando a fragilidade de arquivos JAR locais.
+Secret Management: Integração com python-dotenv para carregamento de chaves de acesso via variáveis de ambiente, impedindo a exposição de credenciais sensíveis no código-fonte ou em logs.
 
--------------------------------------------------------------------------------
-2. MATRIZ DE CONFIGURACAO E CONECTIVIDADE
--------------------------------------------------------------------------------
+🛡️ Segurança e Governança
+Para garantir a integridade dos dados e a conformidade com padrões internacionais de engenharia, foram estabelecidas três camadas de proteção:
 
-Configuracoes aplicadas dinamicamente na inicializacao da SparkSession:
+Isolamento de Ambiente: Mapeamento de volumes no Docker para proteger o arquivo .env, garantindo que as chaves da conta de storage nunca saiam do perímetro seguro do container.
 
-ITEM             | PARAMETRO DE CONFIGURACAO                             | TIPO
--------------------------------------------------------------------------------
-Auth             | fs.azure.account.key.<account>.dfs.core.windows.net   | (P)
-Driver Delta     | io.delta:delta-core_2.12:2.4.0                       | (D)
-Driver Azure     | org.apache.hadoop:hadoop-azure:3.3.4                 | (D)
-FileSystem       | fs.abfss.impl                                         | (P)
+Audit Log (Delta Lake): Ativação do log de transações para permitir rastreabilidade total (Time Travel) e auditoria de cada alteração realizada no Data Lake (quem, quando e o quê).
 
-(P) = Protocolo / (D) = Dependencia
+Resiliência de Sessão: Configuração de logs em modo ERROR e políticas de retry agressivas no Airflow para mitigar falhas intermitentes de rede (Transient Failures).
 
--------------------------------------------------------------------------------
-3. SEGURANCA E GOVERNANCA NA CONEXAO
--------------------------------------------------------------------------------
+📈 Otimização de Performance: Particionamento
+O pipeline foi evoluído para suportar Particionamento Dinâmico na camada Gold, otimizando o consumo de dados para camadas de BI e Analytics.
 
-Camadas estabelecidas para proteger o trafego entre DELLWORK e Azure:
+📐 Estratégias Aplicadas
+Partition Pruning: Partição física por dt_particao (derivada do timestamp), permitindo que o Spark ignore arquivos irrelevantes e reduza drasticamente o I/O de leitura.
 
-A. ISOLAMENTO DE CREDENCIAIS (ENVIRONMENT ISOLATION)
-   - Uso de arquivos .env protegidos e mapeados via volume no Docker.
-   - Zero-Hardcoding: O codigo detecta a conta de storage dinamicamente.
+Schema Enforcement: Bloqueio de gravações que não respeitem o contrato de dados estabelecido, protegendo a camada Gold de corrupção por mudanças inesperadas na origem.
 
-B. RESILIENCIA DE SESSAO (SESSION ROBUSTNESS)
-   - Dynamic Package Resolution: O Spark resolve dependencias em runtime, 
-     evitando o erro 'ClassNotFoundException' em novos containers.
-   - Log Level Control: Spark configurado em modo 'ERROR' para logs limpos.
-
--------------------------------------------------------------------------------
-4. FLUXO DE EXECUCAO (HANDSHAKE)
--------------------------------------------------------------------------------
-
-1. TRIGGER: O Airflow dispara a Task de Python no container.
-2. LOAD: O script carrega as chaves do arquivo .env para a memoria.
-3. RESOLVE: O Spark solicita os pacotes Delta e Hadoop ao repositorio Maven.
-4. MOUNT: O Spark monta virtualmente o sistema de arquivos ABFSS.
-5. EXECUTE: Escrita e leitura direta no Lake com persistencia garantida.
-
--------------------------------------------------------------------------------
-NOTAS ADICIONAIS:
-Ambiente validado em infraestrutura Docker (DELLWORK) com Spark 3.4+.
-Data de atualizacao: 05/04/2026
-Responsavel: Eng. de Dados (Claudio)
-===============================================================================
+Escalabilidade: Estrutura preparada para suportar crescimento volumétrico sem degradação de performance, mantendo as queries SQL eficientes mesmo com milhões de registros.
